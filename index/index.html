@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>booking</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left-section {
+            flex: 1;
+            background-color:paleturquoise;
+            padding: 0px;
+            max-width:600px;
+            height:660px;
+        }
+
+        .right-section {
+            flex: 0.9;
+            padding: 0px;
+            text-align: center;
+            height: 660px;
+            max-width:100%;
+            display: flex;
+            justify-content: center;
+            align-items:stretch;
+        }
+     
+      
+        .name-input {
+     	      display: inline-block;
+            padding: 5px;
+            border: none;
+            border-radius: 0;
+            background-color: transparent;
+            border-bottom: 1px solid black;
+       }
+
+
+        .image-container {
+            position: relative;
+            cursor: pointer;
+            
+            max-height: 100%;
+        }
+
+        img {
+            max-width: 100%;
+            height: 660px;
+            pointer-events: none;
+        }
+
+        .pointer-left,
+        .pointer-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .pointer-left {
+            left: 0px;
+        }
+
+        .pointer-right {
+            right:0px;
+        }
+
+        .next-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="left-section">
+    <b><label for="first-name">FIRST NAME:</label></b>
+    <input type="text" id="first-name" class="name-input">
+
+    <b><label for="last-name">LAST NAME:</label></b>
+    <input type="text" id="last-name" class="name-input">
+
+    <br><br>
+
+    <div>
+        <b><label for="date-of-birth">DATE OF BIRTH:</label></b>
+        <input type="date" id="date-of-birth" onchange="updateBannerDates()">
+    </div>
+
+     <h4>
+        <label for="GENDER">GENDER:</label>  
+        <select id="GENDER" name="GENDER">
+            <option value="   ">   </option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Others">Others</option>
+        </select>
+     </h4>
+
+    <b><label for="email-id">EMAIL ID:</label></b>
+    <input type="text" id="email-id" class="name-input">
+    <br><br>
+
+    <b><label for="address">ADDRESS:</label></b>
+    <input type="text" id="address" class="name-input">
+    <br><br>
+
+    <script>
+       populateCountryOptions();
+          function populateCountryOptions() {
+            var select = document.getElementById("COUNTRY");
+
+            fetch("https://restcountries.com/v2/all")
+              .then(response => response.json())
+              .then(data => {
+                data.forEach(country => {
+                  var option = document.createElement("option");
+                  option.text = country.name;
+                  option.setAttribute("data-calling-code", country.callingCodes[0]);
+                  option.setAttribute("data-country-code", country.alpha2Code);
+                  select.appendChild(option);
+                });
+              })
+              .catch(error => console.error(error));
+          }
+
+          function updateContactNumber() {
+            var countrySelect = document.getElementById("COUNTRY");
+            var contactNumberInput = document.getElementById("contact-number");
+            var countryCodeSpan = document.getElementById("country-code");
+            var selectedOption = countrySelect.options[countrySelect.selectedIndex];
+            var callingCode = selectedOption.getAttribute("data-calling-code");
+            var countryCode = selectedOption.getAttribute("data-country-code");
+            var maxLength = callingCode.length + 8; // Set maximum length of contact number
+            
+            contactNumberInput.value = "";
+            countryCodeSpan.textContent = "+" + callingCode;
+
+            contactNumberInput.maxLength = maxLength; // Set the maximum length dynamically
+          }
+
+          function nextPage() {
+            event.preventDefault();
+            window.location.href = "ochi.html";
+          }
+        </script>
+
+    <body onload="populateCountryOptions()">
+          <b><label for="COUNTRY">COUNTRY:</label></b>
+          <select id="COUNTRY" name="COUNTRY" onchange="updateContactNumber()"></select>
+
+          <br><br>
+          
+          <b><label for="contact-number">CONTACT NO:</label></b>
+          <span id="country-code" class="name-input"></span>
+          <input type="text" id="contact-number" class="name-input">
+
+
+    <br>
+
+    <h3>What is the primary purpose for your visit?</h3>
+    <b><input type="radio" id="business" name="primary-purpose" value="Business"></b>
+    <b><label for="business">Business</label></b>
+
+    <b><input type="radio" id="leisure" name="primary-purpose" value="Leisure"></b>
+    <b><label for="leisure">Leisure</label></b>
+    <br>
+
+    <h3>Select the number of adults and children:</h3>
+    <b><label for="adults">Adults:</label></b>
+    <select id="adults" name="adults">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="more than">more than</option>
+    </select>
+
+    <b><label for="children">Children:</label></b>
+    <select id="children" name="children">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="more than">more than</option>
+    </select>
+    <br><br>
+
+    <button class="next-button" onclick="nextPage()">Next</button>
+
+    <script>
+        function nextPage() {
+            // Add your logic here to navigate to the next page
+            window.location.href = "2nd page.html";
+        }
+    </script>
+</div>
+<div class="right-section">
+    <div class="image-container" onclick="nextImage()">
+        <img id="image" src="https://jonistravelling.com/wp-content/uploads/2015/04/IMG_0541.jpg" alt="Image">
+        <div class="pointer pointer-left">&#10094;</div>
+        <div class="pointer pointer-right">&#10095;</div>
+    </div>
+</div>
+
+<script>
+    
+
+    var imageIndex = 0;
+    var images = [
+        "https://th.bing.com/th/id/R.f90991da71486001df697f56a2356181?rik=p%2faHMCE272KC3w&riu=http%3a%2f%2fwww.crescentcourt.com%2fwp-content%2fuploads%2f2018%2f03%2fsuitelife.jpg&ehk=ImIjCReyUybn3pQ%2fQDI0qnmjbUAJ3Efsvj1Eh8ibxPE%3d&risl=&pid=ImgRaw&r=0",
+        "https://img2.10bestmedia.com/Images/Photos/378649/Park-Hyatt-New-York-Manhattan-Sky-Suite-Master-Bedroom-low-res_54_990x660.jpg",
+        "https://photos.mandarinoriental.com/is/image/MandarinOriental/dmo-The-worlds-most-romantic-hotel-suites-dubai-royal-penthouse-bedroom"
+    ];
+    var imageElement = document.getElementById("image");
+
+    function nextImage() {
+        imageIndex = (imageIndex + 1) % images.length;
+        imageElement.src = images[imageIndex];
+    }
+</script>
+
+</body>
+</html>

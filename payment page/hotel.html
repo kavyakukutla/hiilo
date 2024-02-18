@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ochi Poo Bey</title>
+  <style>
+    /* CSS styles */
+    body {
+      background-color: gainsboro;
+    } 
+
+    header {
+      background-color: #f2f2f2;
+      padding: 0;
+      text-align: center;
+      position: relative; /* Added */
+    }
+
+    h1 {
+      color: #333;
+      font-size: 60px;
+      font-family: algerian;
+      margin: 0;
+    }
+
+    .center-section {
+      flex: 1;
+      background-color: paleturquoise;
+      padding: 0px;
+      max-width: 600px;
+      height: 660px;
+    }  
+
+    .image-container {
+      position: relative;
+      cursor: pointer;
+      max-height: 100%;
+    }
+
+    img {
+      width: 1500px;
+      height: 660px;
+      pointer-events: none;
+    }
+
+    .check-in-out-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 5px;
+      text-align: center;
+      background-color: white;
+    }
+
+    .pointer-left,
+    .pointer-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .pointer-left {
+      left: 0px;
+    }
+
+    .pointer-right {
+      right: -900px;
+    }
+
+    .next-button {
+      position: absolute;
+      top: 1200px;
+      left: 50%;
+    }
+
+    .room-details-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .room-details {
+      margin-left: 20px;
+    }
+
+    .facility-list {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to Ochi Poo Bey</h1>
+    <!-- Carousel of images -->
+  <div class="center-section">
+    <div class="image-container" onclick="nextImage()">
+      <img id="image" src="https://th.bing.com/th/id/R.2007d6dd4ca8f4b527d19c7baaefab7e?rik=rReSTBlU8EgXgg&riu=http%3a%2f%2fwww.offtoeurope.com%2fwp-content%2fuploads%2f2010%2f06%2fradisson-pool.jpg&ehk=CaUisnyP5kcZ1RoXpnFLf0ILEA5k18TKljqzIPNw9JI%3d&risl=1&pid=ImgRaw&r=0">
+
+      <div class="pointer pointer-left">&#10094;</div>
+      <div class="pointer pointer-right">&#10095;</div>
+      </div>
+      </div>
+      
+  
+
+<script>
+  var imageIndex = 0;
+  var images = [
+    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+    "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?cs=srgb&dl=blue-exotic-hotel-189296.jpg&fm=jpg",
+    "https://15pictures.com/wp-content/gallery/15-pictures-hotels/hotels-12.jpg",
+    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg"
+  ];
+  var imageElement = document.getElementById("image");
+
+  function nextImage() {
+    imageIndex = (imageIndex + 1) % images.length;
+    imageElement.src = images[imageIndex];
+  }
+
+  function previousImage() {
+    imageIndex = (imageIndex - 1 + images.length) % images.length;
+    imageElement.src = images[imageIndex];
+  }
+</script>
+
+<div class="check-in-out-container">
+      <h4>
+        <label for="checkin_checkout">CHECK-IN & CHECK-OUT:</label>
+        <input type="date" id="checkin"> To
+        <input type="date" id="checkout">
+      </h4>
+</div>
+  
+  <br><br>
+
+  <!-- Room type selection -->
+  <h3>
+    <label for="ROOM TYPE">ROOM TYPE:</label><br><br>
+    <input type="radio" name="room_type" value="standard room" onclick="updateRoomDetails()">Standard Room
+    <input type="radio" name="room_type" value="deluxe room" onclick="updateRoomDetails()">Deluxe Room
+    <input type="radio" name="room_type" value="executive suite" onclick="updateRoomDetails()">Executive Suite
+  </h3>
+
+  <!-- Room details -->
+  <div class="room-details-container">
+    <div id="room-image-container"></div>
+    <div class="room-details" id="room-details"></div>
+  </div>
+  <br>
+
+  
+
+  <script>
+    // JavaScript code
+
+    // Get the room type radio buttons
+    var roomTypeRadios = document.getElementsByName("room_type");
+    // Get the room details container
+    var roomDetailsContainer = document.getElementById("room-details");
+    // Get the room image container
+    var roomImageContainer = document.getElementById("room-image-container");
+
+    // Function to update room details based on the selected room type
+    function updateRoomDetails() {
+      // Clear the room details container
+      roomDetailsContainer.innerHTML = "";
+      roomImageContainer.innerHTML = "";
+
+      // Find the selected room type
+      var selectedRoomType;
+      for (var i = 0; i < roomTypeRadios.length; i++) {
+        if (roomTypeRadios[i].checked) {
+          selectedRoomType = roomTypeRadios[i].value;
+          break;
+        }
+      }
+
+      // Create an image element
+      var roomImage = document.createElement("img");
+      roomImage.src = getRoomImageURL(selectedRoomType);
+      roomImage.style.width = "500px";
+      roomImage.style.height = "400px";
+      roomImageContainer.appendChild(roomImage);
+
+      // Create a heading element for room type
+      var roomHeading = document.createElement("h2");
+      roomHeading.textContent = selectedRoomType.charAt(0).toUpperCase() + selectedRoomType.slice(1);
+      roomDetailsContainer.appendChild(roomHeading);
+
+      // Create an unordered list for room facilities
+      var facilityList = document.createElement("ul");
+      facilityList.classList.add("facility-list");
+
+      // Add room facilities as list items
+      var facilities = getRoomFacilities(selectedRoomType);
+      for (var j = 0; j < facilities.length; j++) {
+        var facilityItem = document.createElement("li");
+        facilityItem.textContent = facilities[j];
+        facilityList.appendChild(facilityItem);
+      }
+
+      roomDetailsContainer.appendChild(facilityList);
+    }
+
+    // Function to get the image URL for the selected room type
+    function getRoomImageURL(roomType) {
+      switch (roomType) {
+        case "standard room":
+          return "https://th.bing.com/th/id/OIP.qCEAKx5U8k6qxehZ_NF1BAHaEh?w=267&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7";
+          
+        case "deluxe room":
+          return "https://th.bing.com/th/id/OIP.KYEfonGJuzg4LghjbPHZEQHaFt?pid=ImgDet&w=267&h=180&c=7&r=0&dpr=1.3&pid=1.7";
+       
+        case "executive suite":
+          return "https://th.bing.com/th/id/OIP.NBOdxGhaFswPBWpiKTzRugHaE8?pid=ImgDet&w=267&h=180&c=7&dpr=1.3&pid=1.7";
+        default:
+          return "";
+      }
+    }
+     
+    // Function to get the facilities for the selected room type
+    function getRoomFacilities(roomType) {
+      switch (roomType) {
+        case "standard room":
+          return [
+            "PRICE - 2500/-",
+            "Swimming Pool",
+            "Pet-friendly",
+            "Restaurant",
+            "Bar/Lounge",
+            "Free wifi",
+            "No Smoking",
+            "Limit: 5-6 members"
+          ];
+        case "deluxe room":
+          return [
+            "PRICE - 3500/-",
+            "Swimming Pool",
+            "Pet-friendly",
+            "Restaurant",
+            "Bar/Lounge",
+            "Free wifi",
+            "Free TV",
+            "Smoking Allowed"
+          ];
+        case "executive suite":
+          return [
+            "PRICE - 6000/-",
+            "Swimming Pool",
+            "Restaurant",
+            "Bar/Lounge",
+            "Spa",
+            "GYM available",
+            "Free wifi",
+            "Separate Smoking zone",
+            "Free Breakfast"
+          ];
+        default:
+          return [];
+      }
+    }
+
+    // Function to navigate to the next page
+    function nextPage() {
+      window.location.href = "1st page.html";
+    }
+  </script>
+
+  <button class="next-button" onclick="nextPage()">Next</button>
+
+</body>
+</html>
